@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bids for {{ player.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>Bids for {{ player.name }}</h1>
+    <p>Base Price: ₹{{ player.base_price }}</p>
+
+    {% if bids %}
+    <h2>Bid History</h2>
+    <ul>
+        {% for bid in bids %}
+        <li>
+            ₹{{ bid.amount }} by <strong>{{ bid.team_name }}</strong> at {{ bid.timestamp }}
+        </li>
+        {% endfor %}
+    </ul>
+    <p><strong>Highest Bid:</strong> ₹{{ bids[0].amount }} by {{ bids[0].team_name }}</p>
+    {% else %}
+    <p>No bids yet for this player.</p>
+    {% endif %}
+
+    <br>
+    <a href="{{ url_for('index') }}">← Back to Auction Home</a>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Local Cricket Auction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>Players</h1>
+    <form method="post" action="/add_player">
+        Name: <input name="name">
+        Base Price: <input name="base_price" type="number">
+        <button type="submit">Add Player</button>
+    </form>
+    <ul>
+        {% for player in players %}
+        <li>
+            {{ player.name }} (₹{{ player.base_price }})
+            <a href="/player/{{ player.id }}">View Bids</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h1>Teams</h1>
+    <form method="post" action="/add_team">
+        Name: <input name="name">
+        <button type="submit">Add Team</button>
+    </form>
+
+    <h1>Bid</h1>
+    <form method="post" action="/bid">
+        Player:
+        <select name="player_id">
+            {% for player in players %}
+            <option value="{{ player.id }}">{{ player.name }}</option>
+            {% endfor %}
+        </select>
+
+        Team:
+        <select name="team_id">
+            {% for team in teams %}
+            <option value="{{ team.id }}">{{ team.name }}</option>
+            {% endfor %}
+        </select>
+
+        Amount: <input name="amount" type="number">
+        <button type="submit">Place Bid</button>
+    </form>
+</body>
+
+</html>
