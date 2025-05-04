@@ -35,7 +35,8 @@ def bid():
 
     db = get_db()
     highest = db.execute("SELECT MAX(amount) as max_bid FROM bids WHERE player_id = ?", (player_id,)).fetchone()
-    if highest['max_bid'] is None or amount > highest['max_bid']:
+    current_price = db.execute("SELECT base_price FROM players WHERE id = ?", (player_id,)).fetchone()
+    if (highest['max_bid'] is None or amount > highest['max_bid']) and amount > current_price['base_price']:
         db.execute("INSERT INTO bids (player_id, team_id, amount) VALUES (?, ?, ?)", (player_id, team_id, amount))
         db.commit()
     return redirect(url_for('index'))
