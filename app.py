@@ -36,7 +36,7 @@ def bid():
     db = get_db()
     highest = db.execute("SELECT MAX(amount) as max_bid FROM bids WHERE player_id = ?", (player_id,)).fetchone()
     current_price = db.execute("SELECT base_price FROM players WHERE id = ?", (player_id,)).fetchone()
-    if (highest['max_bid'] is None or amount > highest['max_bid']) and amount > current_price['base_price']:
+    if (highest['max_bid'] is None or amount > highest['max_bid']) and amount >= current_price['base_price']:
         db.execute("INSERT INTO bids (player_id, team_id, amount) VALUES (?, ?, ?)", (player_id, team_id, amount))
         db.commit()
     return redirect(url_for('index'))
@@ -54,5 +54,5 @@ def view_bids(player_id):
     return render_template("bids.html", player=player, bids=bids)
 
 if __name__ == '__main__':
-    init_db()  # Run only once for fresh setup
+    init_db()
     app.run(debug=True)

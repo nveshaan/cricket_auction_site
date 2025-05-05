@@ -1,4 +1,3 @@
--- schema.sql
 DROP TABLE IF EXISTS players;
 DROP TABLE IF EXISTS teams;
 DROP TABLE IF EXISTS bids;
